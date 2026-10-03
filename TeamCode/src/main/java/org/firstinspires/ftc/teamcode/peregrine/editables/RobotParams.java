@@ -23,8 +23,8 @@ public final class RobotParams {
     public static DistanceUnit distanceUnit = DistanceUnit.CM;
 
     // Pinpoint pod offsets from the tracking centre, in distanceUnit (see the goBILDA Pinpoint docs for the sign convention).
-    public static double odoXOffset = 4.958;
-    public static double odoYOffset = -18.858;
+    public static double odoXOffset = -2.24;
+    public static double odoYOffset = -3.92;
     public static GoBildaPinpointDriver.GoBildaOdometryPods podType = GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD;
     public static GoBildaPinpointDriver.EncoderDirection xEncoderDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
     public static GoBildaPinpointDriver.EncoderDirection yEncoderDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
