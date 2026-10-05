@@ -20,7 +20,7 @@ public class TeleopMovement extends Task {
     @Override
     public boolean run() {
         // powerMotors(y = forward, x = strafe, h = turn).
-        Kinematics.powerMotors(Math.pow(-opMode.gamepad1.left_stick_y, 3), Math.pow(opMode.gamepad1.left_stick_x, 3), Math.pow(-opMode.gamepad1.right_stick_x, 3), opMode);
+        Kinematics.powerMotors(Math.pow(-opMode.gamepad1.left_stick_y, 3), Math.pow(-opMode.gamepad1.left_stick_x, 3), Math.pow(opMode.gamepad1.right_stick_x, 3), opMode);
         return false;
     }
 

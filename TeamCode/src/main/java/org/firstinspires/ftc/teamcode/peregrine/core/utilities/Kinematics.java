@@ -23,10 +23,10 @@ public final class Kinematics {
             case MECANUM:
 
                 // Combine the forward, strafe and turn commands to determine each wheel's power.
-                double fr = y - x + h;
-                double fl = y + x - h;
-                double br = y + x + h;
-                double bl = y - x - h;
+                double fr = y + x - h;
+                double fl = y - x + h;
+                double br = y - x - h;
+                double bl = y + x + h;
 
                 // Normalize the values so no wheel power exceeds 100%
                 double max = Math.max(Math.max(Math.max(Math.abs(fr), Math.abs(fl)), Math.abs(br)), Math.abs(bl));

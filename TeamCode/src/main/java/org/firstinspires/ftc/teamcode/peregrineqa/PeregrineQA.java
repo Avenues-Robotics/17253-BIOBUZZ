@@ -650,6 +650,7 @@ public class PeregrineQA extends QRRoutine {
                 ctx -> ctx.opMode().localizer == null ? "" : "ended at " + pose(ctx.opMode().localizer),
                 new SimpleTest.StepSupplier() {
                     Drive drive;
+                    Logger logger;
                     boolean placed;
                     long start;
 
@@ -662,6 +663,10 @@ public class PeregrineQA extends QRRoutine {
                             configuredTarget(ctx.optimalityEngine());   // clear FAIL message if the name is wrong
                             ctx.localizer();
                             drive = new Drive(ctx.opMode(), PeregrineQAConfig.driveTarget);
+                        }
+                        if(logger == null) {
+                            logger = new Logger(ctx.opMode(), "drive_log");
+                            logger.addDrivetrainItems();
                         }
                         if (!placed) {
                             ctx.prompt(String.format(Locale.US,
@@ -677,6 +682,7 @@ public class PeregrineQA extends QRRoutine {
                             start = System.nanoTime();
                         }
                         ctx.prompt("Driving to " + PeregrineQAConfig.driveTarget + "...");
+                        logger.run();
                         if (drive.run()) return PASS;
                         if (msSince(start) > PeregrineQAConfig.driveTimeoutMs) {
                             drive.end();

@@ -69,15 +69,7 @@ public class Logger extends Task {
     // Measures the timestamp column.
     ElapsedTime time;
 
-    /**
-     * Finds the SD card and creates a new log file with just the {@code timestamp} header.
-     *
-     * @param opMode the running opMode
-     * @throws IllegalStateException if there is no SD card, it isn't mounted, or the logs directory
-     * can't be created.
-     * @throws RuntimeException if the log file can't be written.
-     */
-    public Logger(PeregrineOpMode opMode) {
+    public Logger(PeregrineOpMode opMode, String filename) {
         this.opMode = opMode;
         logItems = new ArrayList<>();
         hasRun = false;
@@ -101,7 +93,7 @@ public class Logger extends Task {
         }
 
         // One new file per construction, e.g. log_20260910_153000.csv.
-        logFile = new File(logDir, "log_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()) + ".csv");
+        logFile = new File(logDir, filename + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()) + ".csv");
 
         try {
             writer = new FileWriter(logFile, true);
@@ -113,6 +105,18 @@ public class Logger extends Task {
         }
 
         time = new ElapsedTime();
+    }
+
+    /**
+     * Finds the SD card and creates a new log file with just the {@code timestamp} header.
+     *
+     * @param opMode the running opMode
+     * @throws IllegalStateException if there is no SD card, it isn't mounted, or the logs directory
+     * can't be created.
+     * @throws RuntimeException if the log file can't be written.
+     */
+    public Logger(PeregrineOpMode opMode) {
+        this(opMode, "log");
     }
 
     /**
