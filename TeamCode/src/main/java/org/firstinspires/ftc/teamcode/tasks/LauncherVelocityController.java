@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,12 +13,10 @@ public class LauncherVelocityController extends Task {
     double Vtarg;   //target velocity
     double Vtargoff;    //offset target velocity
     double Tprev;   //previous cycle time
-    double Dprev;   //previous cycle distance of motor
     double Dcurr;   //current cycle distance of motor
     public static double ticksPerRev= 537.7; //find according to specific model
-    public static double wheelDiameter = 0.1;  //meters
-    public static double wheelCircumference = Math.PI * wheelDiameter;   //meters
-    public static double fullSpeed;   //speed of the motor at full power
+    public static double wheelCircumference = 0.5;   //meters
+    public static double fullSpeed = 1;   //speed of the motor at full power
     public static double topMargin = 0.1;
     ElapsedTime runtime;
 
@@ -31,7 +27,6 @@ public class LauncherVelocityController extends Task {
         Vtarg = 0;
         Vtargoff = 0;
         Tprev = 0;
-        Dprev = 0;
         Dcurr = 0;
 
     }
@@ -51,7 +46,7 @@ public class LauncherVelocityController extends Task {
 
         Dcurr = (((currTicks-prevTicks) / ticksPerRev) * wheelCircumference);
 
-        Vcurr = (Dcurr-Dprev)/(runtime.seconds()-Tprev);   //current velocity
+        Vcurr = (Dcurr)/(runtime.seconds()-Tprev);   //current velocity
         Vtargoff = 1/fullSpeed * Vtarg;     //offset calculation
 
         //setting power to motor
@@ -59,17 +54,16 @@ public class LauncherVelocityController extends Task {
             opMode.hardware.flywheel.setPower(1);
         }
         else if (Vcurr > Vtarg+topMargin){
-            opMode.hardware.flywheel.setPower(-1);
+            opMode.hardware.flywheel.setPower(0);
         }
         else{
             opMode.hardware.flywheel.setPower(Vtargoff);
         }
 
-        telemetry.addData("Current Velocity", Vcurr);
+        opMode.telem.addData("Current Velocity", Vcurr); //peregrine doesnt use telemetry
 
         //saving current cycle values for next cycle
         Tprev = runtime.seconds();
-        Dprev = Dcurr;
         prevTicks = currTicks;
 
         return false;
@@ -77,11 +71,11 @@ public class LauncherVelocityController extends Task {
 
     @Override
     public void end() {
-
+        opMode.hardware.flywheel.setPower(0);
     }
 
     @Override
     public Task reset() {
-        return null;
+        return new LauncherVelocityController(opMode);
     }
 }
