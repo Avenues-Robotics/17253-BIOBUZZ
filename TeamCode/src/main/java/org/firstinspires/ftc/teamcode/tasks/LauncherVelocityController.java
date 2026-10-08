@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.tasks;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 
 @Config
-public class VelocitySetter extends Task {
+public class LauncherVelocityController extends Task {
 
     double Vcurr;   //current velocity
     double Vtarg;   //target velocity
@@ -26,7 +24,7 @@ public class VelocitySetter extends Task {
     public static double topMargin = 0.1;
     ElapsedTime runtime;
 
-    public VelocitySetter (PeregrineOpMode opMode) {
+    public LauncherVelocityController(PeregrineOpMode opMode) {
         this.opMode = opMode;
         runtime = new ElapsedTime();
         Vcurr = 0;
