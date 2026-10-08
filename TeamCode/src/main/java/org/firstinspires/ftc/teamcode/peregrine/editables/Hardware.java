@@ -22,6 +22,7 @@ public class Hardware {
     public DcMotor FL;
     public DcMotor BR;
     public DcMotor BL;
+    public DcMotor flywheel;
 
     /**
      * Maps and configures every device using the opMode's hardwareMap and the values in RobotParams.
@@ -53,6 +54,11 @@ public class Hardware {
         BL.setDirection(RobotParams.BLDirection);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheel = opMode.hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel.setDirection(RobotParams.flywheelDirection);
+        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
 }
