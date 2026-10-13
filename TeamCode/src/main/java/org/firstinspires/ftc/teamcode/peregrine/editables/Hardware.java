@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.peregrine.editables;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 
@@ -23,6 +24,8 @@ public class Hardware {
     public DcMotor BR;
     public DcMotor BL;
     public DcMotor flywheel;
+
+    public Servo altitudeServo;
 
     /**
      * Maps and configures every device using the opMode's hardwareMap and the values in RobotParams.
@@ -59,6 +62,7 @@ public class Hardware {
         flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        altitudeServo = opMode.hardwareMap.get(Servo.class, "altitudeServo");
     }
 
 }
