@@ -24,6 +24,7 @@ public class Hardware {
     public DcMotor BR;
     public DcMotor BL;
     public DcMotor flywheel;
+    public DcMotor declinationMotor;
 
     public Servo altitudeServo;
 
@@ -61,6 +62,10 @@ public class Hardware {
         flywheel.setDirection(RobotParams.flywheelDirection);
         flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        declinationMotor = opMode.hardwareMap.get(DcMotor.class, "declinationMotor");
+        declinationMotor.setDirection(RobotParams.declinationMotorDirection);
+        declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         altitudeServo = opMode.hardwareMap.get(Servo.class, "altitudeServo");
     }
