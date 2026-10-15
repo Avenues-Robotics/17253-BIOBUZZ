@@ -69,9 +69,10 @@ public class LauncherHeadingPID extends Task {
     public boolean run() {
 
         //calculation of current theta:
-        thetaCurrent = readTheta();
+        thetaCurrent = mod((readTheta()-Math.PI), (2 * Math.PI));
+        thetaTarget = mod((thetaTarget-Math.PI), (2 * Math.PI));
 
-        errorRad = thetaTarget - thetaCurrent; // todo
+        errorRad = thetaTarget - thetaCurrent;
         error = errorRad / radPerTooth;
 
         // Proportional term
@@ -113,5 +114,9 @@ public class LauncherHeadingPID extends Task {
 
 
         return null;
+    }
+
+    private double mod(double a, double b) {
+        return ((a % b) + b) % b;
     }
 }
