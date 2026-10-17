@@ -12,12 +12,13 @@ import org.firstinspires.ftc.teamcode.peregrine.core.tasks.WaitUntilTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 import org.firstinspires.ftc.teamcode.tasks.LauncherVelocityController;
+import org.firstinspires.ftc.teamcode.tasks.PIDLauncherVelocityController;
 
 @Config
 @Autonomous
 public class LauncherVelocityControllerDebug extends PeregrineOpMode {
 
-    public static double targetSpeed = 1;
+    public static double targetSpeed = 1000;
 
     @Override
     public Pose2D startingPose() {
@@ -26,7 +27,7 @@ public class LauncherVelocityControllerDebug extends PeregrineOpMode {
 
     @Override
     public Task defineTasks() {
-        LauncherVelocityController controller = new LauncherVelocityController(this);
+        PIDLauncherVelocityController controller = new PIDLauncherVelocityController(this);
         return new ParallelTask(controller, new WaitUntilTask(() -> {controller.setVtarg(targetSpeed); return false;}));
     }
 

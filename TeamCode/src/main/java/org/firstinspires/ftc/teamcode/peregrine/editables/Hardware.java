@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.peregrine.editables;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
@@ -23,7 +24,7 @@ public class Hardware {
     public DcMotor FL;
     public DcMotor BR;
     public DcMotor BL;
-    public DcMotor flywheel;
+    public DcMotorEx flywheel;
     public DcMotor declinationMotor;
 
     public Servo altitudeServo;
@@ -42,32 +43,32 @@ public class Hardware {
         odo.resetPosAndIMU();
 
         // Open-loop power control: the drivetrain model was fitted against raw power, not encoder velocity.
-//        FR = opMode.hardwareMap.get(DcMotor.class, "FR");
-//        FR.setDirection(RobotParams.FRDirection);
-//        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        FL = opMode.hardwareMap.get(DcMotor.class, "FL");
-//        FL.setDirection(RobotParams.FLDirection);
-//        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        BR = opMode.hardwareMap.get(DcMotor.class, "BR");
-//        BR.setDirection(RobotParams.BRDirection);
-//        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        BL = opMode.hardwareMap.get(DcMotor.class, "BL");
-//        BL.setDirection(RobotParams.BLDirection);
-//        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        flywheel = opMode.hardwareMap.get(DcMotor.class, "flywheel");
+        FR = opMode.hardwareMap.get(DcMotor.class, "FR");
+        FR.setDirection(RobotParams.FRDirection);
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FL = opMode.hardwareMap.get(DcMotor.class, "FL");
+        FL.setDirection(RobotParams.FLDirection);
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR = opMode.hardwareMap.get(DcMotor.class, "BR");
+        BR.setDirection(RobotParams.BRDirection);
+        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL = opMode.hardwareMap.get(DcMotor.class, "BL");
+        BL.setDirection(RobotParams.BLDirection);
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheel = opMode.hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(RobotParams.flywheelDirection);
-        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        declinationMotor = opMode.hardwareMap.get(DcMotor.class, "declinationMotor");
-//        declinationMotor.setDirection(RobotParams.declinationMotorDirection);
-//        declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheel.setVelocityPIDFCoefficients(RobotParams.flywheelP, 0, RobotParams.flywheelI, 0);
+        declinationMotor = opMode.hardwareMap.get(DcMotor.class, "declinationMotor");
+        declinationMotor.setDirection(RobotParams.declinationMotorDirection);
+        declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        altitudeServo = opMode.hardwareMap.get(Servo.class, "altitudeServo");
+        altitudeServo = opMode.hardwareMap.get(Servo.class, "altitudeServo");
     }
 
 }
