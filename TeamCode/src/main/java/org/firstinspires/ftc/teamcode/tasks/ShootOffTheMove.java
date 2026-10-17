@@ -11,9 +11,6 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 @Config
 public class ShootOffTheMove extends Task {
 
-    public static double altitudeLinear = 1;
-    public static double altitudeConstant = 0;
-
     public static double speedQuadratic = 1;
     public static double speedLinear = 1;
     public static double speedConstant = 0;
@@ -56,7 +53,6 @@ public class ShootOffTheMove extends Task {
                 pose.getY(DistanceUnit.CM) - hivePose.getY(DistanceUnit.CM));
         launcherVelocityController.setVtarg(speedQuadratic * distance * distance +
                 speedLinear * distance + speedConstant);
-        opMode.hardware.altitudeServo.setPosition(altitudeLinear * distance + altitudeConstant);
         launcherHeadingPID.setTheta(Math.atan2(
                 hivePose.getY(DistanceUnit.CM) - pose.getY(DistanceUnit.CM),
                 hivePose.getX(DistanceUnit.CM) - pose.getX(DistanceUnit.CM))
