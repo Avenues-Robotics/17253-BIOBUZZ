@@ -10,13 +10,14 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 public class LauncherHeadingPID extends Task {
 
     // PIDF Coefficients
-    public static double kp; //power per tooth
-    public static double ki;
-    public static double kd;
+    public static double kp = 0.109; //power per tooth
+    public static double ki = 0.00109;
+    public static double kd = 0.00218;
     public static double kf;
-    public static double ticksPerRev; //test ples
+    public static double ticksPerRev = 384.7;
+    public static double dontGoThrough = 1.8;
     double integral; // Integral term accumulation
-    double previousError; // Previous error value
+    double previousError; // Previous error va1lue
 
     //angle values
     double thetaTarget;
@@ -46,7 +47,7 @@ public class LauncherHeadingPID extends Task {
         error = 0;
         output = 0;
 
-        //variable variables depending on application
+
         launcherTeeth = 220;
         motorPinionTeeth = 48.0;
 
@@ -69,8 +70,8 @@ public class LauncherHeadingPID extends Task {
     public boolean run() {
 
         //calculation of current theta:
-        thetaCurrent = mod((readTheta()-Math.PI), (2 * Math.PI));
-        thetaTarget = mod((thetaTarget-Math.PI), (2 * Math.PI));
+        thetaCurrent = mod((readTheta()-dontGoThrough), (2 * Math.PI));
+        thetaTarget = mod((thetaTarget-dontGoThrough), (2 * Math.PI));
 
         errorRad = thetaTarget - thetaCurrent;
         error = errorRad / radPerTooth;
@@ -99,6 +100,8 @@ public class LauncherHeadingPID extends Task {
         previousError = error;
 
         Tprev = runtime.seconds();
+
+        opMode.telem.addData("Current Theta (radians)", thetaCurrent);
 
         return false;
     }

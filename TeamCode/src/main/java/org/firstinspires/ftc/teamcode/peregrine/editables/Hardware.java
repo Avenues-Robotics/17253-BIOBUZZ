@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.peregrine.editables;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -63,6 +65,7 @@ public class Hardware {
         flywheel.setVelocityPIDFCoefficients(RobotParams.flywheelP, 0, RobotParams.flywheelI, 0);
         declinationMotor = opMode.hardwareMap.get(DcMotor.class, "declinationMotor");
         declinationMotor.setDirection(RobotParams.declinationMotorDirection);
+        declinationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
