@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 @Config
 public class ShootOffTheMove extends Task {
 
-    public static double speedQuadratic = 1;
-    public static double speedLinear = 1;
-    public static double speedConstant = 0;
+    public static double speedQuadratic = 0.0241935;
+    public static double speedLinear = -4.30645;
+    public static double speedConstant = 2332.90323;
 
     LauncherVelocityController launcherVelocityController;
     LauncherHeadingPID launcherHeadingPID;

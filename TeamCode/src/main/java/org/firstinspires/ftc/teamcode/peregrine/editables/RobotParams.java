@@ -36,8 +36,11 @@ public final class RobotParams {
     public static DcMotor.Direction BRDirection = DcMotor.Direction.FORWARD;
     public static DcMotor.Direction BLDirection = DcMotor.Direction.REVERSE;
 
-    public static DcMotor.Direction flywheelDirection = DcMotor.Direction.FORWARD;
+    public static DcMotor.Direction flywheelDirection = DcMotor.Direction.REVERSE;
     public static DcMotor.Direction declinationMotorDirection = DcMotor.Direction.FORWARD;
+
+    public static DcMotor.Direction transferRDirection = DcMotor.Direction.FORWARD;
+    public static DcMotor.Direction transferLDirection = DcMotor.Direction.FORWARD;
 
     public static double flywheelP = 300;
     public static double flywheelI = 300;

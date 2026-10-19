@@ -28,6 +28,8 @@ public class Hardware {
     public DcMotor BL;
     public DcMotorEx flywheel;
     public DcMotor declinationMotor;
+    public DcMotor transferR;
+    public DcMotor transferL;
 
     /**
      * Maps and configures every device using the opMode's hardwareMap and the values in RobotParams.
@@ -68,6 +70,12 @@ public class Hardware {
         declinationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        transferR = opMode.hardwareMap.get(DcMotor.class, "transferR");
+        transferR.setDirection(RobotParams.transferRDirection);
+        transferR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        transferL = opMode.hardwareMap.get(DcMotor.class, "transferL");
+        transferL.setDirection(RobotParams.transferLDirection);
+        transferL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 }

@@ -6,13 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.peregrine.core.tasks.InstantTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.WaitUntilTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 import org.firstinspires.ftc.teamcode.tasks.LauncherVelocityController;
-import org.firstinspires.ftc.teamcode.tasks.PIDLauncherVelocityController;
 
 @Config
 @Autonomous
@@ -27,7 +25,7 @@ public class LauncherVelocityControllerDebug extends PeregrineOpMode {
 
     @Override
     public Task defineTasks() {
-        PIDLauncherVelocityController controller = new PIDLauncherVelocityController(this);
+        LauncherVelocityController controller = new LauncherVelocityController(this);
         return new ParallelTask(controller, new WaitUntilTask(() -> {controller.setVtarg(targetSpeed); return false;}));
     }
 
@@ -48,7 +46,7 @@ public class LauncherVelocityControllerDebug extends PeregrineOpMode {
 
     @Override
     public void mainLoop() {
-
+        hardware.transferR.setPower(1);
     }
 
     @Override
