@@ -92,5 +92,4 @@ public class Hardware {
         transferL.setDirection(RobotParams.transferLDirection);
         transferL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
 }

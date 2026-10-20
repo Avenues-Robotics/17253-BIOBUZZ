@@ -48,4 +48,6 @@ public final class RobotParams {
     // Hardware about which slot flywheelI is passed in.
     public static double flywheelP = 300;
     public static double flywheelI = 300;
+
+    public static DcMotor.Direction transferMotorDirection = DcMotor.Direction.FORWARD;
 }
