@@ -49,5 +49,6 @@ public final class RobotParams {
     public static double flywheelP = 300;
     public static double flywheelI = 300;
 
-    public static DcMotor.Direction transferMotorDirection = DcMotor.Direction.FORWARD;
+    public static double positionBlockerOpen;
+    public static double positionBlockerClosed;
 }
