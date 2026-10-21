@@ -48,4 +48,7 @@ public final class RobotParams {
     // Hardware about which slot flywheelI is passed in.
     public static double flywheelP = 300;
     public static double flywheelI = 10;
+
+    public static double positionBlockerOpen;
+    public static double positionBlockerClosed;
 }

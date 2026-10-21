@@ -35,6 +35,7 @@ public class Hardware {
     // Right and left transfer motors, which feed into the flywheel.
     public DcMotor transferR;
     public DcMotor transferL;
+    public Servo blocker;
 
     /**
      * Maps and configures every device using the opMode's hardwareMap and the values in RobotParams.
@@ -88,6 +89,7 @@ public class Hardware {
         transferL = opMode.hardwareMap.get(DcMotor.class, "transferL");
         transferL.setDirection(RobotParams.transferLDirection);
         transferL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
 
+        blocker = opMode.hardwareMap.get(Servo.class, "blocker");
+    }
 }
