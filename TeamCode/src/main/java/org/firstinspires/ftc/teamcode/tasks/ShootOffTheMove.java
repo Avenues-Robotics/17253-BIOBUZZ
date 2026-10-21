@@ -31,9 +31,9 @@ public class ShootOffTheMove extends Task {
 
     // Flywheel speed fit: speed (ticks/s) = speedQuadratic * d^2 + speedLinear * d + speedConstant,
     // where d is the distance to the hive in cm.
-    public static double speedQuadratic = 0.0241935;
-    public static double speedLinear = -4.30645;
-    public static double speedConstant = 2332.90323;
+    public static double speedQuadratic = 0.102112;
+    public static double speedLinear = -5.02684;
+    public static double speedConstant = 2060.69553;
 
     // Child controllers, run from this task's run() rather than from the task tree.
     LauncherVelocityController launcherVelocityController;

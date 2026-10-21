@@ -68,13 +68,10 @@ public class Hardware {
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Closed-loop velocity control on the hub, so setVelocity() holds a speed in ticks per second.
-        // The arguments are (p, i, d, f), so flywheelI is passed in the d slot here. The current gains
-        // were tuned this way, so it is left as is for now.
-        // TODO: pass flywheelI in the i slot and retune the flywheel gains.
         flywheel = opMode.hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(RobotParams.flywheelDirection);
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheel.setVelocityPIDFCoefficients(RobotParams.flywheelP, 0, RobotParams.flywheelI, 0);
+        flywheel.setVelocityPIDFCoefficients(RobotParams.flywheelP, RobotParams.flywheelI, 0, 0);
 
         // The encoder is zeroed here, so turret heading 0 is wherever the turret points at INIT.
         // LauncherHeadingPID sets raw power itself; RUN_WITHOUT_ENCODER still lets it read position.

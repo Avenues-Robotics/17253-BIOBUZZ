@@ -47,5 +47,5 @@ public final class RobotParams {
     // Gains for the flywheel's on-hub velocity controller, read by Hardware at INIT. See the note in
     // Hardware about which slot flywheelI is passed in.
     public static double flywheelP = 300;
-    public static double flywheelI = 300;
+    public static double flywheelI = 10;
 }

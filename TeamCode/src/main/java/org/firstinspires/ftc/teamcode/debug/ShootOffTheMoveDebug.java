@@ -22,6 +22,9 @@ import org.firstinspires.ftc.teamcode.tasks.ShootOffTheMove;
 @Autonomous
 public class ShootOffTheMoveDebug extends PeregrineOpMode {
 
+    public static double x = 31.29;
+    public static double y = 49.64;
+
     /** @return the field origin, which is also where ShootOffTheMove puts the hive by default */
     @Override
     public Pose2D startingPose() {
@@ -31,7 +34,9 @@ public class ShootOffTheMoveDebug extends PeregrineOpMode {
     /** @return a ShootOffTheMove that reads its pose from the Localizer and never finishes */
     @Override
     public Task defineTasks() {
-        return new ShootOffTheMove(this);
+        ShootOffTheMove shootOffTheMove = new ShootOffTheMove(this);
+        shootOffTheMove.setHivePose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.RADIANS, 0));
+        return shootOffTheMove;
     }
 
     @Override
@@ -53,6 +58,9 @@ public class ShootOffTheMoveDebug extends PeregrineOpMode {
     @Override
     public void mainLoop() {
         hardware.transferR.setPower(1);
+        telem.addData("x", localizer.getPose().getX(DistanceUnit.CM));
+        telem.addData("y", localizer.getPose().getY(DistanceUnit.CM));
+        telem.addData("h", localizer.getPose().getHeading(AngleUnit.RADIANS));
     }
 
     @Override
