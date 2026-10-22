@@ -8,7 +8,8 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 public class TransferController extends Task {
     double powerTransfer;   //power to be set to transfer
-    public TransferController (PeregrineOpMode opMode, double powerTransfer) {
+
+    public TransferController(PeregrineOpMode opMode, double powerTransfer) {
         this.opMode = opMode;
         this.powerTransfer = powerTransfer;
     }
