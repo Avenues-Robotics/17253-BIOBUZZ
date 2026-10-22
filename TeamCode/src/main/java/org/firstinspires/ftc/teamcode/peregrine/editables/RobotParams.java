@@ -34,7 +34,7 @@ public final class RobotParams {
     public static DcMotor.Direction FRDirection = DcMotor.Direction.FORWARD;
     public static DcMotor.Direction FLDirection = DcMotor.Direction.REVERSE;
     public static DcMotor.Direction BRDirection = DcMotor.Direction.FORWARD;
-    public static DcMotor.Direction BLDirection = DcMotor.Direction.REVERSE;
+    public static DcMotor.Direction BLDirection = DcMotor.Direction.FORWARD;
 
     // Launcher motor directions: flywheel and turret (declination) motor.
     public static DcMotor.Direction flywheelDirection = DcMotor.Direction.REVERSE;
