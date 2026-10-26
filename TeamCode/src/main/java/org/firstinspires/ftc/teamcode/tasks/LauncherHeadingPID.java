@@ -48,6 +48,7 @@ public class LauncherHeadingPID extends Task {
     double errorRad; // target minus current heading, in radians
     double error; // target minus current heading, in launcher gear teeth
     double output; // motor power sent to declinationMotor on the last loop
+    double ThetaTarget;
 
     /**
      * Creates the controller with a target heading of 0 and its integral and derivative state cleared.
@@ -67,6 +68,7 @@ public class LauncherHeadingPID extends Task {
         errorRad = 0;
         error = 0;
         output = 0;
+        ThetaTarget = 0;
 
 
         launcherTeeth = 220;
@@ -114,10 +116,10 @@ public class LauncherHeadingPID extends Task {
         // Shift both headings so dontGoThrough sits at the 0/2pi seam, then wrap into [0, 2pi).
         // Since the error below is not wrapped, the turret can never be told to cross that seam.
         thetaCurrent = mod((readTheta()-dontGoThrough), (2 * Math.PI));
-        thetaTarget = mod((thetaTarget-dontGoThrough), (2 * Math.PI));
+        ThetaTarget = mod((thetaTarget-dontGoThrough), (2 * Math.PI));
 
         // Error in radians, then converted to launcher gear teeth so the gains are per tooth.
-        errorRad = thetaTarget - thetaCurrent;
+        errorRad = ThetaTarget - thetaCurrent;
         error = errorRad / radPerTooth;
 
         // Proportional term
