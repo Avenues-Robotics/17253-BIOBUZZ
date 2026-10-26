@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.peregrineqa;
+package org.firstinspires.ftc.teamcode.debug;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,6 +9,12 @@ import org.firstinspires.ftc.teamcode.peregrine.core.tasks.IdleTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 
+/**
+ * <h3>Shows the Localizer's pose, for checking odometry.</h3>
+ *
+ * <p>Does nothing but report the robot's x and y (cm) and heading (radians) every loop. Push the
+ * robot around and check the numbers against how far it actually moved.</p>
+ */
 @TeleOp(group = "QA")
 public class LocalizerDebug extends PeregrineOpMode {
     @Override

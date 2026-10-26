@@ -1,14 +1,19 @@
 package org.firstinspires.ftc.teamcode.peregrine.editables;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 
 /**
  * <h3>All robot hardware, mapped once per opMode.</h3>
  *
- * <p>The names ("odo", "FR", "FL", "BR", "BL") must match the Driver Station robot configuration.
+ * <p>The names ("odo", "FR", "FL", "BR", "BL", "flywheel", "declinationMotor", "transferR",
+ * "transferL") must match the Driver Station robot configuration.
  * Add your own mechanisms here: declare a public field, then map it in the constructor. Tasks reach
  * them as {@code opMode.hardware.<name>}. Tuning values live in RobotParams.</p>
  */
@@ -22,6 +27,14 @@ public class Hardware {
     public DcMotor FL;
     public DcMotor BR;
     public DcMotor BL;
+
+    // Launcher flywheel. A DcMotorEx so it can be run at a set velocity, see LauncherVelocityController.
+    public DcMotorEx flywheel;
+    // Turns the launcher turret. Its encoder gives the turret heading, see LauncherHeadingPID.
+    public DcMotor declinationMotor;
+    // Right and left transfer motors, which feed into the flywheel.
+    public DcMotor transferR;
+    public DcMotor transferL;
 
     /**
      * Maps and configures every device using the opMode's hardwareMap and the values in RobotParams.
@@ -53,6 +66,31 @@ public class Hardware {
         BL.setDirection(RobotParams.BLDirection);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Closed-loop velocity control on the hub, so setVelocity() holds a speed in ticks per second.
+        // The arguments are (p, i, d, f), so flywheelI is passed in the d slot here. The current gains
+        // were tuned this way, so it is left as is for now.
+        // TODO: pass flywheelI in the i slot and retune the flywheel gains.
+        flywheel = opMode.hardwareMap.get(DcMotorEx.class, "flywheel");
+        flywheel.setDirection(RobotParams.flywheelDirection);
+        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheel.setVelocityPIDFCoefficients(RobotParams.flywheelP, 0, RobotParams.flywheelI, 0);
+
+        // The encoder is zeroed here, so turret heading 0 is wherever the turret points at INIT.
+        // LauncherHeadingPID sets raw power itself; RUN_WITHOUT_ENCODER still lets it read position.
+        declinationMotor = opMode.hardwareMap.get(DcMotor.class, "declinationMotor");
+        declinationMotor.setDirection(RobotParams.declinationMotorDirection);
+        declinationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Transfer motors run on open-loop power.
+        transferR = opMode.hardwareMap.get(DcMotor.class, "transferR");
+        transferR.setDirection(RobotParams.transferRDirection);
+        transferR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        transferL = opMode.hardwareMap.get(DcMotor.class, "transferL");
+        transferL.setDirection(RobotParams.transferLDirection);
+        transferL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 }
