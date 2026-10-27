@@ -31,9 +31,9 @@ public class ShootOffTheMove extends Task {
 
     // Flywheel speed fit: speed (ticks/s) = speedQuadratic * d^2 + speedLinear * d + speedConstant,
     // where d is the distance to the hive in cm.
-    public static double speedQuadratic = 0.102112;
-    public static double speedLinear = -5.02684;
-    public static double speedConstant = 2060.69553;
+    public static double speedQuadratic = 0.0148148;
+    public static double speedLinear = -1.9037;
+    public static double speedConstant = 1475.94815;
 
     // Child controllers, run from this task's run() rather than from the task tree.
     LauncherVelocityController launcherVelocityController;
@@ -105,6 +105,8 @@ public class ShootOffTheMove extends Task {
                 pose.getY(DistanceUnit.CM) - hivePose.getY(DistanceUnit.CM));
         launcherVelocityController.setVtarg(speedQuadratic * distance * distance +
                 speedLinear * distance + speedConstant);
+        opMode.telem.addData("Commanded Velocity",
+                speedQuadratic * distance * distance + speedLinear * distance + speedConstant);
         // Field bearing from the robot to the hive, minus the robot's heading, gives the turret
         // heading relative to the robot.
         launcherHeadingPID.setTheta(Math.atan2(
