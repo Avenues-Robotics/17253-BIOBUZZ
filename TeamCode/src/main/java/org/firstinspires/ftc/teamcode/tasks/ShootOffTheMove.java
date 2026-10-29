@@ -22,9 +22,6 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
  * <p>It owns and runs its own LauncherVelocityController and LauncherHeadingPID, so don't also add
  * those to the task tree. It does not yet account for the robot's velocity. It never finishes on
  * its own.</p>
- *
- * <p>By default the pose comes from the Localizer. For testing, construct it with
- * {@code realPose = false} and supply the pose yourself with {@link #setPose(Pose2D)}.</p>
  */
 @Config
 public class ShootOffTheMove extends Task {
@@ -54,17 +51,6 @@ public class ShootOffTheMove extends Task {
     }
 
     /**
-     * Supplies the robot pose to aim from, in place of the Localizer.
-     *
-     * @param pose the robot's pose in the field frame
-     * @throws IllegalStateException if this instance reads its pose from the Localizer (realPose is true)
-     */
-    public void setPose(Pose2D pose) {
-        if (realPose) throw new IllegalStateException("May only set pose for a ShootOffTheMove instance with realPose set to false");
-        this.pose = pose;
-    }
-
-    /**
      * Creates a ShootOffTheMove that reads the robot's pose from the Localizer, aiming at a hive at
      * the field origin until {@link #setHivePose(Pose2D)} is called.
      *
@@ -76,19 +62,6 @@ public class ShootOffTheMove extends Task {
         launcherHeadingPID = new LauncherHeadingPID(opMode);
         hivePose = new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0);
         realPose = true;
-    }
-
-    /**
-     * Creates a ShootOffTheMove that can take its pose from {@link #setPose(Pose2D)} instead of the
-     * Localizer. The pose starts at the field origin.
-     *
-     * @param opMode the opMode whose hardware (and localizer, if realPose is true) this task uses
-     * @param realPose true to read the pose from the Localizer, false to supply it with setPose()
-     */
-    public ShootOffTheMove(PeregrineOpMode opMode, boolean realPose) {
-        this(opMode);
-        this.realPose = realPose;
-        pose = new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0);
     }
 
     /**
@@ -131,7 +104,7 @@ public class ShootOffTheMove extends Task {
      */
     @Override
     public Task reset() {
-        ShootOffTheMove output = new ShootOffTheMove(opMode, realPose);
+        ShootOffTheMove output = new ShootOffTheMove(opMode);
         output.hivePose = this.hivePose;
         output.pose = this.pose;
         return output;
