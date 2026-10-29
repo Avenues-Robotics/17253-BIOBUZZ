@@ -34,7 +34,7 @@ public final class RobotParams {
     public static DcMotor.Direction FRDirection = DcMotor.Direction.FORWARD;
     public static DcMotor.Direction FLDirection = DcMotor.Direction.REVERSE;
     public static DcMotor.Direction BRDirection = DcMotor.Direction.FORWARD;
-    public static DcMotor.Direction BLDirection = DcMotor.Direction.FORWARD;
+    public static DcMotor.Direction BLDirection = DcMotor.Direction.REVERSE;
 
     // Launcher motor directions: flywheel and turret (declination) motor.
     public static DcMotor.Direction flywheelDirection = DcMotor.Direction.REVERSE;
@@ -46,8 +46,8 @@ public final class RobotParams {
 
     // Gains for the flywheel's on-hub velocity controller, read by Hardware at INIT. See the note in
     // Hardware about which slot flywheelI is passed in.
-    public static double flywheelP = 0;
-    public static double flywheelI = 100;
+    public static double flywheelP = 200;
+    public static double flywheelI = 4;
 
     public static double positionBlockerOpen;
     public static double positionBlockerClosed;
