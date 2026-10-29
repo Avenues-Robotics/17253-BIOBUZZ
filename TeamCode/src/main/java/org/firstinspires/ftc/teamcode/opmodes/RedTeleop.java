@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.InstantTask;
+import org.firstinspires.ftc.teamcode.peregrine.core.tasks.ParallelRaceTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.ParallelTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.SeriesTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.TeleopMovement;
@@ -21,6 +22,10 @@ import org.firstinspires.ftc.teamcode.tasks.TransferController;
 public class RedTeleop extends PeregrineOpMode {
 
     boolean sequenceActive;
+    public static int windDownDelay;//ms
+    public static int blockerDelay; //ms
+
+    public static int launchDuration;
 
     @Override
     public Pose2D startingPose() {
@@ -35,7 +40,7 @@ public class RedTeleop extends PeregrineOpMode {
 
         TeleopTask transferController = new TeleopTask(
                 this, new TransferController(this, 1),
-                () -> gamepad1.left_trigger>0.7 && !sequenceActive,false);
+                () -> !sequenceActive,false);
 
         Task teleopMovement = new TeleopMovement(this);
 
@@ -44,23 +49,26 @@ public class RedTeleop extends PeregrineOpMode {
                 new SeriesTask(
                         new InstantTask(() -> sequenceActive = true),
 
-                        new InstantTask(() -> {
-                            hardware.transferR.setPower(0);
-                            hardware.transferL.setPower(0);
-                        }),
+                        new WaitTask(this, windDownDelay),
 
-                        new BlockerController(this),
+                        new ParallelRaceTask(
 
-                        new TransferController(this, 1),
+                                new BlockerController(this),
 
-                        new WaitTask(this, 10000),
+                                new SeriesTask(
 
-                        new InstantTask(() -> {
-                            hardware.transferR.setPower(1);
-                            hardware.transferL.setPower(1);
-                            sequenceActive = false;
-                        })
+                                    new WaitTask(this, blockerDelay),
+                                        new TransferController(this, 1)
+
+                                ),
+
+                                new WaitTask(this, launchDuration)
+
+                                ),
+
+                        new InstantTask(() -> sequenceActive = false)
                 ),
+
                 () -> gamepad1.right_trigger>0.7,
                 true);
 
