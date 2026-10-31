@@ -15,8 +15,10 @@ import org.firstinspires.ftc.teamcode.peregrine.core.tasks.TeleopTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.WaitTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
+import org.firstinspires.ftc.teamcode.peregrine.editables.GlobalVariables;
 import org.firstinspires.ftc.teamcode.peregrine.editables.RobotParams;
 import org.firstinspires.ftc.teamcode.tasks.BlockerController;
+import org.firstinspires.ftc.teamcode.tasks.SOTMPoseSupplier;
 import org.firstinspires.ftc.teamcode.tasks.ShootOffTheMove;
 import org.firstinspires.ftc.teamcode.tasks.ShootOnTheMove;
 import org.firstinspires.ftc.teamcode.tasks.TransferController;
@@ -40,8 +42,7 @@ public class RedTeleop extends PeregrineOpMode {
     @Override
     public Task defineTasks() {
         ShootOnTheMove shootOnTheMove = new ShootOnTheMove(this);
-        shootOnTheMove.setHivePose(new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0));
-        TeleopTask blockerController = new TeleopTask(this, new BlockerController(this),()->gamepad1.dpad_left, false);
+        SOTMPoseSupplier sotmPoseSupplier = new SOTMPoseSupplier(this, shootOnTheMove);
 
         TeleopTask transferController = new TeleopTask(
                 this, new TransferController(this, 1),
@@ -78,6 +79,7 @@ public class RedTeleop extends PeregrineOpMode {
                 true);
 
         return new ParallelTask(
+                sotmPoseSupplier,
                 shootOnTheMove,
                 transferSequence,
                 transferController,
@@ -88,6 +90,7 @@ public class RedTeleop extends PeregrineOpMode {
     @Override
     public void initStart() {
         hardware.blocker.setPosition(RobotParams.positionBlockerClosed);
+        globalVariables.alliance = GlobalVariables.Alliance.RED;
     }
 
     @Override
