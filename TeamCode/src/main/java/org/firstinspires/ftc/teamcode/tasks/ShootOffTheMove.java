@@ -41,6 +41,8 @@ public class ShootOffTheMove extends Task {
 
     boolean realPose; // true to read the pose from the Localizer, false to use the pose given to setPose()
 
+    public double distance;
+
     /**
      * Sets where the hive is. Defaults to the field origin.
      *
@@ -74,7 +76,7 @@ public class ShootOffTheMove extends Task {
     public boolean run() {
         if (realPose) pose = opMode.localizer.getPose();
         // Straight-line distance from the robot to the hive, in cm.
-        double distance = Math.hypot(pose.getX(DistanceUnit.CM) - hivePose.getX(DistanceUnit.CM),
+        distance = Math.hypot(pose.getX(DistanceUnit.CM) - hivePose.getX(DistanceUnit.CM),
                 pose.getY(DistanceUnit.CM) - hivePose.getY(DistanceUnit.CM));
         launcherVelocityController.setVtarg(speedQuadratic * distance * distance +
                 speedLinear * distance + speedConstant);

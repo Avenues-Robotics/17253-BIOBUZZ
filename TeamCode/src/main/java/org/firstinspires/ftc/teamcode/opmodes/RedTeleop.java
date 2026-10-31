@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -14,18 +15,21 @@ import org.firstinspires.ftc.teamcode.peregrine.core.tasks.TeleopTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.tasks.WaitTask;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
+import org.firstinspires.ftc.teamcode.peregrine.editables.RobotParams;
 import org.firstinspires.ftc.teamcode.tasks.BlockerController;
 import org.firstinspires.ftc.teamcode.tasks.ShootOffTheMove;
+import org.firstinspires.ftc.teamcode.tasks.ShootOnTheMove;
 import org.firstinspires.ftc.teamcode.tasks.TransferController;
 
 @TeleOp
+@Config
 public class RedTeleop extends PeregrineOpMode {
 
     boolean sequenceActive;
-    public static int windDownDelay;//ms
-    public static int blockerDelay; //ms
+    public static int windDownDelay = 100;//ms
+    public static int blockerDelay = 100; //ms
 
-    public static int launchDuration;
+    public static int launchDuration = 500;
 
     @Override
     public Pose2D startingPose() {
@@ -35,7 +39,8 @@ public class RedTeleop extends PeregrineOpMode {
 
     @Override
     public Task defineTasks() {
-        Task shootOffTheMove = new ShootOffTheMove(this);
+        ShootOnTheMove shootOnTheMove = new ShootOnTheMove(this);
+        shootOnTheMove.setHivePose(new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0));
         TeleopTask blockerController = new TeleopTask(this, new BlockerController(this),()->gamepad1.dpad_left, false);
 
         TeleopTask transferController = new TeleopTask(
@@ -73,7 +78,7 @@ public class RedTeleop extends PeregrineOpMode {
                 true);
 
         return new ParallelTask(
-                shootOffTheMove,
+                shootOnTheMove,
                 transferSequence,
                 transferController,
                 teleopMovement
@@ -82,7 +87,7 @@ public class RedTeleop extends PeregrineOpMode {
 
     @Override
     public void initStart() {
-
+        hardware.blocker.setPosition(RobotParams.positionBlockerClosed);
     }
 
     @Override
@@ -97,7 +102,6 @@ public class RedTeleop extends PeregrineOpMode {
 
     @Override
     public void mainLoop() {
-
     }
 
     @Override

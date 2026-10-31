@@ -18,8 +18,8 @@ public class ShootOnTheMove extends Task {
     static final int iterations = 4;
 
     public static double a = 0;
-    public static double b = 1;
-    public static double c = 1;
+    public static double b = 0.00318182;
+    public static double c = 0.190909;
 
     public ShootOnTheMove(PeregrineOpMode opMode) {
         this.opMode = opMode;
