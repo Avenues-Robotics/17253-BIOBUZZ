@@ -6,4 +6,15 @@ package org.firstinspires.ftc.teamcode.peregrine.editables;
  * {@code opMode.globalVariables}. It is empty by default.
  */
 public class GlobalVariables {
+
+    public GlobalVariables() {
+        alliance = Alliance.RED;
+    }
+
+    public enum Alliance {
+        RED,
+        BLUE
+    }
+
+    public Alliance alliance;
 }
