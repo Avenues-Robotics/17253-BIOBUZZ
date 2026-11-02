@@ -21,27 +21,12 @@ import org.firstinspires.ftc.teamcode.qa.SimpleTest;
 
 import java.util.ArrayList;
 import java.util.List;
-/**
- * Standard QA sequence for the robot.
- *
- * Tests:
- * - Battery voltage
- * - Individual drivetrain motors
- * - Kinematics movement patterns
- * - TeleopMovement stick directions
- * - Pinpoint odometry (10 cm forward, backward, left, and right)
- * - Intake motor operation
- *
- * Drivetrain checks require the robot to be raised on blocks.
- * Odometry checks require the robot to be on a flat surface
- * with clear space around it.
- */
+
 @TeleOp
 public class StandardSequence extends QRRoutine {
 
     static final double POWER = 0.3;
     static final double ODO_POWER = 0.2;
-    static final double INTAKE_POWER = 0.5;
     static final double TARGET_DISTANCE = 10.0;
 
     static final QATest.Category HW = QATest.Category.HARDWARE;
@@ -102,24 +87,10 @@ public class StandardSequence extends QRRoutine {
                         + "then press A."));
 
         // Pinpoint movement checks
-        t.add(odometryTest("Odometry forward", 1, 0,
-                "Move the robot FORWARD approximately 10 cm."));
-
-        t.add(odometryTest("Odometry backward", -1, 0,
-                "Move the robot BACKWARD approximately 10 cm."));
-
-        t.add(odometryTest("Odometry strafe right", 0, 1,
-                "Move the robot to the RIGHT approximately 10 cm."));
-
-        t.add(odometryTest("Odometry strafe left", 0, -1,
-                "Move the robot to the LEFT approximately 10 cm."));
-
-        // Intake check
-        t.add(new ManualCheckTest("Intake motor", HW,
-                ctx -> "",
-                ctx -> ctx.hardware().intake.setPower(INTAKE_POWER),
-                "The intake should now be running. Press A if it spins correctly, "
-                        + "or B if it does not."));
+        t.add(odometryTest("Odometry forward", 1, 0));
+        t.add(odometryTest("Odometry backward", -1, 0));
+        t.add(odometryTest("Odometry strafe right", 0, 1));
+        t.add(odometryTest("Odometry strafe left", 0, -1));
 
         return t;
     }
@@ -134,7 +105,6 @@ public class StandardSequence extends QRRoutine {
         hw.FL.setPower(0);
         hw.BR.setPower(0);
         hw.BL.setPower(0);
-        hw.intake.setPower(0);
     }
 
     static QATask gate(String name, String instruction) {
@@ -163,7 +133,7 @@ public class StandardSequence extends QRRoutine {
     }
 
     static QATest odometryTest(String name, double forwardDirection,
-                               double rightDirection, String instruction) {
+                               double rightDirection) {
 
         final double[] startX = {0};
         final double[] startY = {0};
@@ -192,8 +162,7 @@ public class StandardSequence extends QRRoutine {
                     double dx = x - startX[0];
                     double dy = y - startY[0];
 
-                    // Convert field-frame displacement into the robot's
-                    // starting forward/right coordinate system.
+                    // Convert field-frame displacement into robot-relative movement.
                     double forward = dx * Math.sin(startHeading[0])
                             + dy * Math.cos(startHeading[0]);
 
