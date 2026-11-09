@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode.qa.TestSequences;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.qa.SimpleTest;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp
+@Autonomous
 public class StandardSequence extends QRRoutine {
 
     static final double POWER = 0.3;

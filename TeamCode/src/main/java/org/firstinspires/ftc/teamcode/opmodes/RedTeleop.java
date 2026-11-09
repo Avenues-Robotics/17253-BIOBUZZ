@@ -38,6 +38,10 @@ public class RedTeleop extends PeregrineOpMode {
 
         return new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0);
     }
+    @Override
+    public boolean buildOptimalityEngine() { // SHOULD WORK WITHOUT SD CARD cause i made the method public instead of protected in calibration and paregrine opmode
+        return false;
+    }
 
     @Override
     public Task defineTasks() {
@@ -111,4 +115,5 @@ public class RedTeleop extends PeregrineOpMode {
     public void end() {
 
     }
+
 }
