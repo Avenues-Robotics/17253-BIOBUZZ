@@ -7,14 +7,16 @@ package org.firstinspires.ftc.teamcode.peregrine.editables;
  */
 public class GlobalVariables {
 
-    public GlobalVariables() {
-        alliance = Alliance.RED;
-    }
-
     public enum Alliance {
         RED,
         BLUE
     }
 
+    public boolean sequenceActive;
     public Alliance alliance;
+
+    public GlobalVariables() {
+        sequenceActive = false;
+        alliance = Alliance.RED;
+    }
 }
