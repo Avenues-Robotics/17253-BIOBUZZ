@@ -52,4 +52,7 @@ public final class RobotParams {
     // Find new values with ServoDebug.
     public static double positionBlockerOpen = 0.09;
     public static double positionBlockerClosed = 0.15;
+
+    public static double positionFlowerIntakeOpen;
+    public static double positionFlowerIntakeClosed;
 }

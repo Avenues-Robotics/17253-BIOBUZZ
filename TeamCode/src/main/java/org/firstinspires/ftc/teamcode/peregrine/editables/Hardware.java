@@ -38,6 +38,8 @@ public class Hardware {
     // Servo that blocks balls from reaching the flywheel until a shot is fired.
     public Servo blocker;
 
+    public Servo flowerIntake;
+
     /**
      * Maps and configures every device using the opMode's hardwareMap and the values in RobotParams.
      * PeregrineOpMode calls this once at INIT. It also resets the Pinpoint's position and IMU.
@@ -93,5 +95,8 @@ public class Hardware {
 
         // Position is set by each opMode's initStart(), not here.
         blocker = opMode.hardwareMap.get(Servo.class, "blocker");
+
+        flowerIntake = opMode.hardwareMap.get(Servo.class, "flowerIntake");
+
     }
 }
