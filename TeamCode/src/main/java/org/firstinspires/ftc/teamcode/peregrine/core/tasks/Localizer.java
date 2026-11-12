@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 public class Localizer extends Task {
 
     Pose2D startingPose;
+    boolean firstCall;
 
     /**
      * Blocks until the Pinpoint (which Hardware reset when it was built) reports READY, then sets its
@@ -34,16 +35,7 @@ public class Localizer extends Task {
     public Localizer (PeregrineOpMode opMode, Pose2D startingPose) {
         this.opMode = opMode;
         this.startingPose = startingPose;
-        // Loop counter, only shown on telemetry while waiting.
-        int i = 0;
-        while(opMode.hardware.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY) {
-            opMode.hardware.odo.update();
-            opMode.telem.addData("Odo Status", opMode.hardware.odo.getDeviceStatus());
-            opMode.telem.addData("Loop Number", i);
-            opMode.telem.update();
-            i++; // TODO: figure out why this doesn't work properly all the time and fix it.
-        }
-        opMode.hardware.odo.setPosition(startingPose);
+        firstCall = true;
     }
 
     /** Field-frame pose from the most recent update(). */
@@ -85,6 +77,10 @@ public class Localizer extends Task {
     // Pulls a fresh reading from the Pinpoint. Never finishes.
     @Override
     public boolean run() {
+        if(firstCall) {
+            opMode.hardware.odo.setPosition(startingPose);
+            firstCall = false;
+        }
         opMode.hardware.odo.update();
         return false;
     }
