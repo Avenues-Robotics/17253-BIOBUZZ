@@ -6,6 +6,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.ejml.simple.SimpleMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.PeregrineOpMode;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Kinematics;
 import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
@@ -33,6 +36,7 @@ public class PIDHold extends Task {
     int target;
     // Target state as a 6x1 column [x, y, h, vx, vy, w], field frame.
     SimpleMatrix targetState;
+    Pose2D targetPose;
 
     // Gains and model terms from MODEL.JSON "honing" (§8.8.1). bEffInv and lambda are loaded but only
     // needed for feedforward, which is not used.
@@ -69,16 +73,23 @@ public class PIDHold extends Task {
      * @throws IllegalArgumentException if no target with that name is on the SD card.
      */
     public PIDHold(PeregrineOpMode opMode, String target) {
-        this.opMode = opMode;
+        this(opMode, new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0));
         targetName = target;
-        if (opMode.optimalityEngine == null)
-            throw new IllegalStateException("This opMode's buildOptimalityEngine() returns false, but PIDHold needs the OptimalityEngine.");
         try {
             this.target = opMode.optimalityEngine.targets.get(targetName);
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("Invalid target name, no such target present on SD Card.");
         }
         targetState = new SimpleMatrix(new double[][]{opMode.optimalityEngine.getTargetCoords(this.target)}).transpose();
+    }
+
+    public PIDHold(PeregrineOpMode opMode, Pose2D target) {
+        this.opMode = opMode;
+        targetPose = target;
+        if (opMode.optimalityEngine == null)
+            throw new IllegalStateException("This opMode's buildOptimalityEngine() returns false, but PIDHold needs the OptimalityEngine.");
+        targetState = new SimpleMatrix(new double[][]{{target.getX(DistanceUnit.CM),
+        target.getY(DistanceUnit.CM), target.getHeading(AngleUnit.RADIANS), 0, 0, 0}}).transpose();
 
         // Order is fixed by OptimalityEngine.getPIDConstants().
         SimpleMatrix[] pidConstants = opMode.optimalityEngine.getPIDConstants();
@@ -145,7 +156,7 @@ public class PIDHold extends Task {
 
     @Override
     public Task reset() {
-        return new PIDHold(opMode, targetName);
+        return targetName != null ? new PIDHold(opMode, targetName) : new PIDHold(opMode, targetPose);
     }
 
     // Always-non-negative modulo. Java's % keeps the sign of the dividend.
