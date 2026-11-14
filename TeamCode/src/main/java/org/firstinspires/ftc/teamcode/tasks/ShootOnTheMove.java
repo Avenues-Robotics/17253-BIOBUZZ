@@ -40,6 +40,9 @@ public class ShootOnTheMove extends Task {
         double hiveXV = hivePose.getX(DistanceUnit.CM);
         double hiveYV = hivePose.getY(DistanceUnit.CM);
 
+        opMode.telem.addData("HiveX", hiveXV);
+        opMode.telem.addData("HiveY", hiveYV);
+
         double d_r = Math.sqrt(Math.pow(pose.getX(DistanceUnit.CM) - hivePose.getX(DistanceUnit.CM), 2) +
                 Math.pow(pose.getY(DistanceUnit.CM) - hivePose.getY(DistanceUnit.CM), 2));
         double t = 0;
