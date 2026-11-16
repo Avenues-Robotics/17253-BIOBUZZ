@@ -72,5 +72,5 @@ public class Calibration extends PeregrineOpMode {
 
     // Calibration never drives to a target, so it doesn't load the tables.
     @Override
-    protected boolean buildOptimalityEngine() { return false; }
+    public boolean buildOptimalityEngine() { return false; } // usually protected
 }

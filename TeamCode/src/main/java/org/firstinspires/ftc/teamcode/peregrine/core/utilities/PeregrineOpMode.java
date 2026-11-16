@@ -131,6 +131,6 @@ public abstract class PeregrineOpMode extends LinearOpMode {
      * tables on the SD card. Drive and PIDHold throw at construction if this returns false.
      * @return true (the default) to load the SD card tables
      */
-    protected boolean buildOptimalityEngine() { return true; }
+    public boolean buildOptimalityEngine() { return true; } // usually protected
 
 }
