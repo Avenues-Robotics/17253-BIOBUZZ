@@ -22,12 +22,13 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 public class Localizer extends Task {
 
     Pose2D startingPose;
+    // True until the first run(), which is when the Pinpoint's position gets set to startingPose.
     boolean firstCall;
 
     /**
-     * Blocks until the Pinpoint (which Hardware reset when it was built) reports READY, then sets its
-     * pose to startingPose. Runs during init. Nothing checks for a stop request, so if the Pinpoint
-     * never becomes READY this loop hangs.
+     * Stores startingPose. The Pinpoint's position is not set here but on the first run(), at the
+     * start of the match, which gives the Pinpoint all of INIT to finish setting up after Hardware
+     * reset it.
      *
      * @param opMode the running opMode; its hardware and telem must already be built
      * @param startingPose where the robot is, in the field frame
@@ -77,6 +78,7 @@ public class Localizer extends Task {
     // Pulls a fresh reading from the Pinpoint. Never finishes.
     @Override
     public boolean run() {
+        // Set the starting pose once, now that the Pinpoint has had time to become ready.
         if(firstCall) {
             opMode.hardware.odo.setPosition(startingPose);
             firstCall = false;

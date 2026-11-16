@@ -23,33 +23,52 @@ import org.firstinspires.ftc.teamcode.tasks.ShootOffTheMove;
 import org.firstinspires.ftc.teamcode.tasks.ShootOnTheMove;
 import org.firstinspires.ftc.teamcode.tasks.TransferController;
 
+/**
+ * Red alliance teleop. The driver drives with gamepad1, the launcher aims and spins up on its own
+ * with shooting on the move, and holding the right trigger fires a volley.
+ *
+ * <p>The transfer runs constantly in the background, except while a firing sequence is running.</p>
+ */
 @TeleOp
 @Config
 public class RedTeleop extends PeregrineOpMode {
 
+    // True while a firing sequence is running, which pauses the background transfer.
     boolean sequenceActive;
+    // How long to wait after pausing the background transfer before opening the blocker.
     public static int windDownDelay = 100;//ms
+    // How long after the blocker starts opening to start feeding balls.
     public static int blockerDelay = 100; //ms
 
+    // How long the blocker stays open per volley, in ms.
     public static int launchDuration = 500;
 
+    /** @return the field origin; teleop doesn't assume a known start */
     @Override
     public Pose2D startingPose() {
 
         return new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0);
     }
 
+    /**
+     * Builds the teleop tasks.
+     *
+     * @return a ParallelTask of driving, shooting on the move, and the transfer controls
+     */
     @Override
     public Task defineTasks() {
         ShootOnTheMove shootOnTheMove = new ShootOnTheMove(this);
         SOTMPoseSupplier sotmPoseSupplier = new SOTMPoseSupplier(this, shootOnTheMove);
 
+        // Runs the transfer constantly, except while a firing sequence is running.
         TeleopTask transferController = new TeleopTask(
                 this, new TransferController(this, 1),
                 () -> !sequenceActive,false);
 
         Task teleopMovement = new TeleopMovement(this);
 
+        // Fires a volley when the right trigger is pressed. Same steps as FiringSequence, but uses this
+        // opmode's own sequenceActive flag and Dashboard-tunable delays.
         TeleopTask transferSequence = new TeleopTask (
                 this,
                 new SeriesTask(
@@ -87,6 +106,7 @@ public class RedTeleop extends PeregrineOpMode {
         );
     }
 
+    /** Closes the blocker and sets the alliance to red so the right hive is targeted. */
     @Override
     public void initStart() {
         hardware.blocker.setPosition(RobotParams.positionBlockerClosed);

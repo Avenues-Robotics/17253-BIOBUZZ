@@ -36,6 +36,7 @@ public class PIDHold extends Task {
     int target;
     // Target state as a 6x1 column [x, y, h, vx, vy, w], field frame.
     SimpleMatrix targetState;
+    // Target given directly as a pose, or null when the target came from the SD card by name.
     Pose2D targetPose;
 
     // Gains and model terms from MODEL.JSON "honing" (§8.8.1). bEffInv and lambda are loaded but only
@@ -73,6 +74,7 @@ public class PIDHold extends Task {
      * @throws IllegalArgumentException if no target with that name is on the SD card.
      */
     public PIDHold(PeregrineOpMode opMode, String target) {
+        // Build everything from a placeholder pose, then overwrite the target with the named one.
         this(opMode, new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0));
         targetName = target;
         try {
@@ -83,6 +85,15 @@ public class PIDHold extends Task {
         targetState = new SimpleMatrix(new double[][]{opMode.optimalityEngine.getTargetCoords(this.target)}).transpose();
     }
 
+    /**
+     * Creates a PIDHold that drives to and holds a pose given directly, rather than one stored on
+     * the SD card. The target velocity is zero.
+     *
+     * @param opMode the running opMode; its buildOptimalityEngine() must return true, since the
+     *               PID gains still come from the OptimalityEngine.
+     * @param target the pose to hold, in the field frame
+     * @throws IllegalStateException if the opMode didn't build an OptimalityEngine.
+     */
     public PIDHold(PeregrineOpMode opMode, Pose2D target) {
         this.opMode = opMode;
         targetPose = target;
@@ -156,6 +167,7 @@ public class PIDHold extends Task {
 
     @Override
     public Task reset() {
+        // Rebuild the same way this one was built: by name if it had one, otherwise by pose.
         return targetName != null ? new PIDHold(opMode, targetName) : new PIDHold(opMode, targetPose);
     }
 

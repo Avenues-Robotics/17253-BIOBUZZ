@@ -35,6 +35,7 @@ public class Hardware {
     // Right and left transfer motors, which feed into the flywheel.
     public DcMotor transferR;
     public DcMotor transferL;
+    // Servo that blocks balls from reaching the flywheel until a shot is fired.
     public Servo blocker;
 
     /**
@@ -90,6 +91,7 @@ public class Hardware {
         transferL.setDirection(RobotParams.transferLDirection);
         transferL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        // Position is set by each opMode's initStart(), not here.
         blocker = opMode.hardwareMap.get(Servo.class, "blocker");
     }
 }

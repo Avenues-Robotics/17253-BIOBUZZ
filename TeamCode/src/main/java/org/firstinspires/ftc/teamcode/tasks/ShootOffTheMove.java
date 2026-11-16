@@ -20,7 +20,8 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
  * </ul>
  *
  * <p>It owns and runs its own LauncherVelocityController and LauncherHeadingPID, so don't also add
- * those to the task tree. It does not yet account for the robot's velocity. It never finishes on
+ * those to the task tree. It does not account for the robot's velocity; ShootOnTheMove does that by
+ * moving the hive it passes in. It never finishes on
  * its own.</p>
  */
 @Config
@@ -39,9 +40,9 @@ public class ShootOffTheMove extends Task {
     Pose2D pose; // robot pose used for aiming, refreshed from the Localizer every loop when realPose is true
     Pose2D hivePose; // field position of the hive; only its x and y are used
 
-    boolean realPose; // true to read the pose from the Localizer, false to use the pose given to setPose()
+    boolean realPose; // always true now that setPose() is gone; the pose always comes from the Localizer
 
-    public double distance;
+    public double distance; // distance to the hive from the last run(), in cm
 
     /**
      * Sets where the hive is. Defaults to the field origin.
@@ -80,6 +81,7 @@ public class ShootOffTheMove extends Task {
                 pose.getY(DistanceUnit.CM) - hivePose.getY(DistanceUnit.CM));
         launcherVelocityController.setVtarg(speedQuadratic * distance * distance +
                 speedLinear * distance + speedConstant);
+        // Same formula as above, shown for tuning the speed fit.
         opMode.telem.addData("Commanded Velocity",
                 speedQuadratic * distance * distance + speedLinear * distance + speedConstant);
         // Field bearing from the robot to the hive, minus the robot's heading, gives the turret
@@ -101,7 +103,7 @@ public class ShootOffTheMove extends Task {
     }
 
     /**
-     * @return a new ShootOffTheMove with fresh controllers, keeping this one's realPose, hive pose
+     * @return a new ShootOffTheMove with fresh controllers, keeping this one's hive pose
      * and current pose
      */
     @Override

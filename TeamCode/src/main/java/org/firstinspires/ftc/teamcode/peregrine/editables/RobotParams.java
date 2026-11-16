@@ -44,11 +44,12 @@ public final class RobotParams {
     public static DcMotor.Direction transferRDirection = DcMotor.Direction.REVERSE;
     public static DcMotor.Direction transferLDirection = DcMotor.Direction.FORWARD;
 
-    // Gains for the flywheel's on-hub velocity controller, read by Hardware at INIT. See the note in
-    // Hardware about which slot flywheelI is passed in.
+    // Gains for the flywheel's on-hub velocity controller, read by Hardware at INIT.
     public static double flywheelP = 200;
     public static double flywheelI = 4;
 
+    // Blocker servo positions (0 to 1) for letting balls through and holding them back.
+    // Find new values with ServoDebug.
     public static double positionBlockerOpen = 0.09;
     public static double positionBlockerClosed = 0.15;
 }
