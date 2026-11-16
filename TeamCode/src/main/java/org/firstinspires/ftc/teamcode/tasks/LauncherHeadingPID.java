@@ -48,7 +48,7 @@ public class LauncherHeadingPID extends Task {
     double errorRad; // target minus current heading, in radians
     double error; // target minus current heading, in launcher gear teeth
     double output; // motor power sent to declinationMotor on the last loop
-    double ThetaTarget;
+    double ThetaTarget; // thetaTarget shifted by dontGoThrough, recomputed every loop so thetaTarget itself stays unchanged
 
     /**
      * Creates the controller with a target heading of 0 and its integral and derivative state cleared.

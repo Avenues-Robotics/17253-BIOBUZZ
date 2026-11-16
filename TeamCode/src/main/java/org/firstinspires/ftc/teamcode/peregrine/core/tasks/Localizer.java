@@ -22,11 +22,13 @@ import org.firstinspires.ftc.teamcode.peregrine.core.utilities.Task;
 public class Localizer extends Task {
 
     Pose2D startingPose;
+    // True until the first run(), which is when the Pinpoint's position gets set to startingPose.
+    boolean firstCall;
 
     /**
-     * Blocks until the Pinpoint (which Hardware reset when it was built) reports READY, then sets its
-     * pose to startingPose. Runs during init. Nothing checks for a stop request, so if the Pinpoint
-     * never becomes READY this loop hangs.
+     * Stores startingPose. The Pinpoint's position is not set here but on the first run(), at the
+     * start of the match, which gives the Pinpoint all of INIT to finish setting up after Hardware
+     * reset it.
      *
      * @param opMode the running opMode; its hardware and telem must already be built
      * @param startingPose where the robot is, in the field frame
@@ -34,16 +36,7 @@ public class Localizer extends Task {
     public Localizer (PeregrineOpMode opMode, Pose2D startingPose) {
         this.opMode = opMode;
         this.startingPose = startingPose;
-        // Loop counter, only shown on telemetry while waiting.
-        int i = 0;
-        while(opMode.hardware.odo.getDeviceStatus() != GoBildaPinpointDriver.DeviceStatus.READY) {
-            opMode.hardware.odo.update();
-            opMode.telem.addData("Odo Status", opMode.hardware.odo.getDeviceStatus());
-            opMode.telem.addData("Loop Number", i);
-            opMode.telem.update();
-            i++; // TODO: figure out why this doesn't work properly all the time and fix it.
-        }
-        opMode.hardware.odo.setPosition(startingPose);
+        firstCall = true;
     }
 
     /** Field-frame pose from the most recent update(). */
@@ -85,6 +78,11 @@ public class Localizer extends Task {
     // Pulls a fresh reading from the Pinpoint. Never finishes.
     @Override
     public boolean run() {
+        // Set the starting pose once, now that the Pinpoint has had time to become ready.
+        if(firstCall) {
+            opMode.hardware.odo.setPosition(startingPose);
+            firstCall = false;
+        }
         opMode.hardware.odo.update();
         return false;
     }
