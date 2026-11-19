@@ -51,7 +51,6 @@ public class Hardware {
         odo.setOffsets(RobotParams.odoXOffset, RobotParams.odoYOffset, RobotParams.distanceUnit);
         odo.setEncoderResolution(RobotParams.podType);
         odo.setEncoderDirections(RobotParams.xEncoderDirection, RobotParams.yEncoderDirection);
-        odo.resetPosAndIMU();
 
         // Open-loop power control: the drivetrain model was fitted against raw power, not encoder velocity.
         FR = opMode.hardwareMap.get(DcMotor.class, "FR");
@@ -81,7 +80,6 @@ public class Hardware {
         // LauncherHeadingPID sets raw power itself; RUN_WITHOUT_ENCODER still lets it read position.
         declinationMotor = opMode.hardwareMap.get(DcMotor.class, "declinationMotor");
         declinationMotor.setDirection(RobotParams.declinationMotorDirection);
-        declinationMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         declinationMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

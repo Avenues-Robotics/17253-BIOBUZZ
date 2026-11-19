@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -46,8 +47,7 @@ public class RedTeleop extends PeregrineOpMode {
     /** @return the field origin; teleop doesn't assume a known start */
     @Override
     public Pose2D startingPose() {
-
-        return new Pose2D(DistanceUnit.CM, 0, 0, AngleUnit.RADIANS, 0);
+        return null;
     }
     @Override
     public boolean buildOptimalityEngine() { // SHOULD WORK WITHOUT SD CARD cause i made the method public instead of protected in calibration and paregrine opmode
