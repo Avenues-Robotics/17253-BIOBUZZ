@@ -31,7 +31,7 @@ public class LauncherHeadingPID extends Task {
     public static double kd = 0.00218; // derivative, power per tooth/second of error change
     public static double kf; // static friction feedforward, applied in the direction of the error (0 by default)
     public static double ticksPerRev = 384.7; // encoder ticks per output shaft revolution of declinationMotor
-    public static double dontGoThrough = 1.8; // heading (radians) the turret must never pass through, e.g. a hard stop
+    public static double dontGoThrough = Math.PI; // heading (radians) the turret must never pass through, e.g. a hard stop
     double integral; // running sum of error * deltaTime, in tooth-seconds
     double previousError; // last loop's error in teeth, for the derivative term
 
@@ -87,7 +87,7 @@ public class LauncherHeadingPID extends Task {
      * @param thetaTarget target heading in radians, relative to the robot
      */
     public void setTheta(double thetaTarget){
-        this.thetaTarget = thetaTarget;
+        this.thetaTarget = thetaTarget - Math.PI; // This is yucky and temporary for the moment while v1 is being used in comp with the turret backwards at init
 
     }
 
