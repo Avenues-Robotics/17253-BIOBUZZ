@@ -33,8 +33,8 @@ public class Hardware {
     // Turns the launcher turret. Its encoder gives the turret heading, see LauncherHeadingPID.
     public DcMotor declinationMotor;
     // Right and left transfer motors, which feed into the flywheel.
-    public DcMotor transferR;
-    public DcMotor transferL;
+    public DcMotorEx transferR;
+    public DcMotorEx transferL;
     // Servo that blocks balls from reaching the flywheel until a shot is fired.
     public Servo blocker;
 
@@ -86,10 +86,10 @@ public class Hardware {
         declinationMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Transfer motors run on open-loop power.
-        transferR = opMode.hardwareMap.get(DcMotor.class, "transferR");
+        transferR = opMode.hardwareMap.get(DcMotorEx.class, "transferR");
         transferR.setDirection(RobotParams.transferRDirection);
         transferR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        transferL = opMode.hardwareMap.get(DcMotor.class, "transferL");
+        transferL = opMode.hardwareMap.get(DcMotorEx.class, "transferL");
         transferL.setDirection(RobotParams.transferLDirection);
         transferL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

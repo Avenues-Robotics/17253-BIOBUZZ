@@ -46,8 +46,7 @@ public class TestAuto extends PeregrineOpMode {
         globalVariables.alliance = GlobalVariables.Alliance.BLUE;
 
         // Runs the transfer constantly, except while a FiringSequence has control of it.
-        TeleopTask transferController = new TeleopTask(this,
-                new TransferController(this, 1), () -> !globalVariables.sequenceActive, false);
+        TransferController transferController = new TransferController(this, 1);
 
         // Keeps the launcher aimed and spun up at the correct hive the whole time.
         ShootOnTheMove shootOnTheMove = new ShootOnTheMove(this);

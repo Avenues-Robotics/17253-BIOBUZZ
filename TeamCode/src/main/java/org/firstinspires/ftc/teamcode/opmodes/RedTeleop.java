@@ -65,9 +65,7 @@ public class RedTeleop extends PeregrineOpMode {
         SOTMPoseSupplier sotmPoseSupplier = new SOTMPoseSupplier(this, shootOnTheMove);
 
         // Runs the transfer constantly, except while a firing sequence is running.
-        TeleopTask transferController = new TeleopTask(
-                this, new TransferController(this, 1),
-                () -> !sequenceActive,false);
+        TransferController transferController = new TransferController(this, 1);
 
         Task teleopMovement = new TeleopMovement(this);
 
