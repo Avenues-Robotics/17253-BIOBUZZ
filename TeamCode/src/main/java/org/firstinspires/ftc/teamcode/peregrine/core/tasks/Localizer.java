@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.peregrine.core.tasks;
 
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -37,6 +35,11 @@ public class Localizer extends Task {
         this.opMode = opMode;
         this.startingPose = startingPose;
         firstCall = true;
+        if (startingPose != null) opMode.hardware.odo.resetPosAndIMU();
+    }
+
+    public Localizer (PeregrineOpMode opMode) {
+        this(opMode, null);
     }
 
     /** Field-frame pose from the most recent update(). */
@@ -80,7 +83,7 @@ public class Localizer extends Task {
     public boolean run() {
         // Set the starting pose once, now that the Pinpoint has had time to become ready.
         if(firstCall) {
-            opMode.hardware.odo.setPosition(startingPose);
+            if (startingPose != null) opMode.hardware.odo.setPosition(startingPose);
             firstCall = false;
         }
         opMode.hardware.odo.update();
