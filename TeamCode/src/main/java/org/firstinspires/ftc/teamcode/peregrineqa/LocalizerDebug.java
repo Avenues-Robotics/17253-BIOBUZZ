@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.debug;
+package org.firstinspires.ftc.teamcode.peregrineqa;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
